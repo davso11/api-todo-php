@@ -1,0 +1,10 @@
+{
+  "name": "api-todo-php-slim",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@prettier/plugin-php": "^0.19.3",
+    "prettier": "^2.8.3"
+  }
+}
