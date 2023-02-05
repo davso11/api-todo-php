@@ -11,15 +11,14 @@ require_once '../../models/UserModel.php';
 $database = new Database();
 $dbConnection = $database->connect();
 
-// Instantiate models object
 $todo = new Todo($dbConnection);
 $user = new User($dbConnection);
 
-// check for userId param in the req body
 $reqBody = json_decode(file_get_contents('php://input'));
 $userId = $reqBody->userId;
 
 if (!isset($userId)) {
+  $dbConnection = null;
   http_response_code(400);
   echo json_encode([
     'message' => 'Missing paramaters in the req body',
@@ -29,26 +28,28 @@ if (!isset($userId)) {
 }
 
 // check if user exist
-$isUser = $user->findById($userId);
-$userNum = $isUser->rowCount();
+$foundUser = $user->findById($userId)->rowCount();
 
-if ($userNum === 0) {
+if ($foundUser === 0) {
+  $dbConnection = null;
   http_response_code(401);
-  echo json_encode(['message' => 'No User Found', 'userId' => $userId]);
+  echo json_encode([
+    'message' => 'No User With That ID Found',
+    'userId' => $userId
+  ]);
   die();
 }
 
-// fetch todos
 $result = $todo->getAll($userId);
-$num = $result->rowCount();
+$todoNum = $result->rowCount();
 
-// check if any todos
-if ($num === 0) {
+// check if no todos
+if ($todoNum === 0) {
+  $dbConnection = null;
+  http_response_code(400);
   echo json_encode(['message' => 'No Todo Found']);
   die();
 }
 
-// send todos
-echo json_encode($result->fetchAll(PDO::FETCH_ASSOC));
-
 $dbConnection = null;
+echo json_encode($result->fetchAll(PDO::FETCH_ASSOC));
