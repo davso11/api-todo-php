@@ -1,7 +1,8 @@
 <?php
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: PUT, POST');
 header('Content-Type: application/json');
+header('Access-Control-Allow-Methods: PUT, POST');
+header('Access-Control-Allow-Headers: *');
 
 require_once '../../config/Database.php';
 require_once '../../models/TodoModel.php';
