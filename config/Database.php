@@ -15,13 +15,22 @@ class Database
     $this->connection = null;
 
     try {
-      $this->connection = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->name, $this->username, $this->password);
+      $this->connection = new PDO(
+        'mysql:host=' . $this->host . ';dbname=' . $this->name,
+        $this->username,
+        $this->password
+      );
       $this->connection->setAttribute(
         PDO::ATTR_ERRMODE,
         PDO::ERRMODE_EXCEPTION
       );
     } catch (PDOException $e) {
-      die('Database connection error : ' . $e->getMessage() . "\nLine : " . $e->getLine());
+      die(
+        'Database connection error : ' .
+          $e->getMessage() .
+          "\nLine : " .
+          $e->getLine()
+      );
     }
 
     return $this->connection;
