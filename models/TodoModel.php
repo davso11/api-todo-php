@@ -4,11 +4,6 @@ class Todo
   private $connection;
   private $table = 'todo';
 
-  public $todoId;
-  public $todo;
-  public $createdAt;
-  public $updatedAt;
-
   public function __construct(PDO $dbConnection)
   {
     $this->connection = $dbConnection;
