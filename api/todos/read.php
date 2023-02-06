@@ -43,13 +43,6 @@ if ($foundUser === 0) {
 $result = $todo->getAll($userId);
 $todoNum = $result->rowCount();
 
-// check if no todos
-if ($todoNum === 0) {
-  $dbConnection = null;
-  http_response_code(400);
-  echo json_encode(['message' => 'No Todo Found']);
-  die();
-}
 
 $dbConnection = null;
 echo json_encode($result->fetchAll(PDO::FETCH_ASSOC));
