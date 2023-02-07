@@ -20,11 +20,10 @@ $userId = $reqBody->userId;
 if (!isset($userId)) {
   $dbConnection = null;
   http_response_code(400);
-  echo json_encode([
+  exit(json_encode([
     'message' => 'Missing paramaters in the req body',
     'userId' => $userId
-  ]);
-  die();
+  ]));
 }
 
 // check if user exist
@@ -37,7 +36,7 @@ if ($foundUser === 0) {
     'message' => 'No User With That ID Found',
     'userId' => $userId
   ]);
-  die();
+  exit;
 }
 
 $result = $todo->getAll($userId);
