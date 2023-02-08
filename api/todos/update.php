@@ -18,6 +18,7 @@ $reqBody = json_decode(file_get_contents('php://input'));
 $userId = $reqBody->userId;
 $todoId = $reqBody->todoId;
 $todo = $reqBody->todo;
+$isImportant = $reqBody->isImportant;
 
 if (!isset($userId)) {
   $dbConnection = null;
@@ -39,7 +40,7 @@ if ($foundUser === 0) {
       'userId' => $userId
     ]);
 } else {
-  $result = $todoModel->update($todo, $todoId);
+  $result = $todoModel->update($todoId, $todo, $isImportant);
   
   if (!$result) {
     $dbConnection = null;
@@ -57,7 +58,7 @@ if ($foundUser === 0) {
       'todoObj' => [
         'todo' => $todo,
         'todoId' => $todoId,
-        'updatedAt' => intval(time())
+        'updatedAt' => intval(time()),
       ]
     ]);
   }
